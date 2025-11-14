@@ -4,13 +4,13 @@ export default async function handler(req, res) {
   if (req.method !== "POST")
     return res.status(405).json({ message: "Method not allowed" });
 
-  const { email, code } = req.body;
+  const { email, verificationcode } = req.body;
 
   try {
     await Mail.sendMail(
       email,
-      "Your Verification Code",
-      { code },
+      "Verification Code",
+      verificationcode,
       "verification"
     );
     res.status(200).json({ success: true });

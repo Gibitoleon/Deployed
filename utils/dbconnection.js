@@ -7,6 +7,6 @@ if (!admin.apps.length) {
     ),
   });
 }
-// redeploy
+
 const db = admin.firestore();
 module.exports = db;

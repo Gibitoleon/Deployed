@@ -1,3 +1,4 @@
+const Mail = require("../Mail/Mail");
 const db = require("../utils/dbconnection");
 
 export default async function handler(req, res) {
@@ -8,36 +9,31 @@ export default async function handler(req, res) {
 
   try {
     const docRef = db.collection("verificationCodes").doc(email);
-    const doc = await docRef.get();
+    const docSnap = await docRef.get();
 
-    if (!doc.exists) {
+    if (!docSnap.exists) {
       return res
         .status(404)
-        .json({ success: false, message: "No code found for this email" });
+        .json({ success: false, message: "Code not found" });
     }
 
-    const data = doc.data();
+    const data = docSnap.data();
 
-    // Check if code matches
     if (data.code !== code) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Incorrect code" });
+      return res.status(400).json({ success: false, message: "Invalid code" });
     }
 
-    // Check if code expired
-    if (data.expiresAt.toDate() < new Date()) {
-      return res.status(400).json({ success: false, message: "Code expired" });
-    }
+    // Update the status to verified instead of deleting
+    await docRef.update({
+      status: "verified", // can be an enum if you like
+      verifiedAt: new Date(),
+    });
 
-    // Optionally, delete the code after successful verification
-    await docRef.delete();
-
-    return res
+    res
       .status(200)
       .json({ success: true, message: "Email verified successfully" });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({ success: false, message: err.message });
   }
 }

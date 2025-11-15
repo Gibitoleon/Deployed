@@ -3,21 +3,6 @@ const Mail = require("../Mail/Mail");
 const generateCode = require("../utils/otp");
 const db = require("../utils/dbconnection"); // This already has admin initialized
 
-console.log("🔍 PRODUCTION - Checking FIREBASE_SERVICE_ACCOUNT:");
-console.log("Exists:", !!process.env.FIREBASE_SERVICE_ACCOUNT);
-if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-  try {
-    const parsed = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-    console.log("✅ JSON parsed, Project ID:", parsed.project_id);
-  } catch (e) {
-    console.log("❌ JSON parse error:", e.message);
-    console.log(
-      "First 100 chars:",
-      process.env.FIREBASE_SERVICE_ACCOUNT.substring(0, 100)
-    );
-  }
-}
-
 export default async function handler(req, res) {
   if (req.method !== "POST")
     return res.status(405).json({ message: "Method not allowed" });

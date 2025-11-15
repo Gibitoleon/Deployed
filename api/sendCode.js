@@ -1,5 +1,6 @@
 const Mail = require("../Mail/Mail");
 const generateCode = require("../utils/otp");
+const admin = require("firebase-admin");
 const db = require("../utils/dbconnection");
 
 export default async function handler(req, res) {

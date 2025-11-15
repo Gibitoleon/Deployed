@@ -16,6 +16,7 @@ export default async function handler(req, res) {
     .collection("verificationCodes")
     .doc(email)
     .set({
+      status: "pending",
       code: verificationcode,
       createdAt: admin.firestore.Timestamp.now(),
       expiresAt: admin.firestore.Timestamp.fromDate(

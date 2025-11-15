@@ -1,4 +1,3 @@
-require("dotenv").config();
 const admin = require("firebase-admin");
 
 if (!admin.apps.length) {
@@ -8,6 +7,6 @@ if (!admin.apps.length) {
     ),
   });
 }
-
+// redeploy
 const db = admin.firestore();
 module.exports = db;

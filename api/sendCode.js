@@ -26,7 +26,7 @@ export default async function handler(req, res) {
       .set({
         status: "pending",
         code: verificationcode,
-        createdAt: admin.firestore.FieldValue.serverTimestamp(), // Use server timestamp
+        createdAt: new Date(), // Use server timestamp
         expiresAt: new Date(Date.now() + 5 * 60 * 1000), // expires in 5 min
       });
 

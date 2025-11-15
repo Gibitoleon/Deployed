@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
     const data = docSnap.data();
 
-    if (data.code !== code) {
+    if (data.code.toString() !== code.toString()) {
       return res.status(400).json({ success: false, message: "Invalid code" });
     }
 
